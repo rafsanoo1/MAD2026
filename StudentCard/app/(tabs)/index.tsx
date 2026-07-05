@@ -1,98 +1,85 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// app/(tabs)/index.tsx
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import ProfileCard from "@/components/profile-card";
+import { StatusBar } from "expo-status-bar";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen() {
+export default function App() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView contentContainerStyle={styles.screen}>
+      <StatusBar style="dark" />
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={styles.header}>
+        <Text style={styles.title}>StudentCard</Text>
+        <Text style={styles.subtitle}>Mobile Application Development</Text>
+      </View>
+
+      <ProfileCard
+        name="Ali Hashemi Rafsanjani"
+        studentId="22-48348-3"
+        department="Computer Science — AIUB"
+        bio="I am a Software Engineering student interested in mobile app development, web technologies, data science, and building practical software solutions."
+        skills={[
+          "React Native",
+          "TypeScript",
+          "JavaScript",
+          "C#",
+          ".NET",
+          "Python",
+        ]}
+      />
+
+      <ProfileCard
+        name="Rakib Rahman"
+        studentId="22-67890-2"
+        department="Computer Science — AIUB"
+        bio="Interested in AI and full-stack web development. Loves competitive programming and solving real-world problems through code."
+        skills={[
+          "Python",
+          "Machine Learning",
+          "React",
+          "Django",
+        ]}
+      />
+
+      <ProfileCard
+        name="Saad Al Rafi"
+        studentId="22-54321-3"
+        department="Software Engineering — AIUB"
+        bio="Aspiring software engineer with a passion for mobile apps, UI/UX design, and modern application development."
+        skills={[
+          "UI/UX",
+          "Figma",
+          "Java",
+          "Mobile Apps",
+        ]}
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  screen: {
+    backgroundColor: "#F0F4F8",
+    alignItems: "center",
+    paddingTop: 60,
+    paddingBottom: 40,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  header: {
+    alignItems: "center",
+    marginBottom: 22,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#0D1F4E",
+    marginBottom: 4,
+  },
+
+  subtitle: {
+    fontSize: 14,
+    color: "#64748B",
   },
 });
