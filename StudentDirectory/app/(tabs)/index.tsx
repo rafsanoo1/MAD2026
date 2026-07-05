@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 
+import AddStudentForm from "../../components/add-student-form";
 import SearchBar from "../../components/search-bar";
 import StudentDetail from "../../components/student-detail";
 import StudentItem from "../../components/student-item";
@@ -19,12 +20,13 @@ interface Student {
   name: string;
   studentId: string;
   department: string;
+  email?: string;
   bio: string;
   skills: string[];
   avatarUrl: string;
 }
 
-const STUDENTS: Student[] = [
+const STARTER_STUDENTS: Student[] = [
   {
     id: "1",
     name: "Rakib Rahman",
@@ -95,6 +97,9 @@ export default function HomeScreen() {
   const [departmentFilter, setDepartmentFilter] =
     useState<DepartmentFilter>("All");
 
+  const [students, setStudents] = useState<Student[]>(STARTER_STUDENTS);
+  const [showForm, setShowForm] = useState<boolean>(false);
+
   const handleSelect = (student: Student) => {
     setSelectedStudent((previousStudent) =>
       previousStudent?.id === student.id ? null : student
@@ -111,7 +116,24 @@ export default function HomeScreen() {
     setSelectedStudent(null);
   };
 
-  const filtered = STUDENTS.filter((student) => {
+  const handleNewStudent = (newStudent: Student) => {
+    setStudents((previousStudents) => [newStudent, ...previousStudents]);
+    setSelectedStudent(newStudent);
+    setShowForm(false);
+    setQuery("");
+    setDepartmentFilter("All");
+  };
+
+  if (showForm) {
+    return (
+      <AddStudentForm
+        onSubmitSuccess={handleNewStudent}
+        onCancel={() => setShowForm(false)}
+      />
+    );
+  }
+
+  const filtered = students.filter((student) => {
     const searchText = query.toLowerCase().trim();
 
     const matchesSearch =
@@ -141,9 +163,20 @@ export default function HomeScreen() {
           <View>
             <View style={styles.titleBar}>
               <Text style={styles.title}>Student Directory</Text>
-              <Text style={styles.count}>
-                {filtered.length} / {STUDENTS.length}
-              </Text>
+
+              <View style={styles.titleRight}>
+                <Text style={styles.count}>
+                  {filtered.length} / {students.length}
+                </Text>
+
+                <TouchableOpacity
+                  style={styles.addButton}
+                  onPress={() => setShowForm(true)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.addButtonText}>+ Add</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             <ScrollView
@@ -213,9 +246,28 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 
+  titleRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+
   count: {
     fontSize: 12,
     color: "#CCFBF1",
+  },
+
+  addButton: {
+    backgroundColor: "#0D9488",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+
+  addButtonText: {
+    color: "#FFFFFF",
+    fontSize: 12,
+    fontWeight: "700",
   },
 
   filterContainer: {
