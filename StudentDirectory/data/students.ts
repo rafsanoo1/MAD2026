@@ -65,4 +65,4 @@ export const STUDENTS: Student[] = [
     skills: ["AWS", "Docker", "Linux"],
     avatarUrl: "https://i.pravatar.cc/150?img=9",
   },
-];
+];// updated student data
